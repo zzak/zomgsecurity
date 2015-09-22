@@ -1,0 +1,24 @@
+default: &defaults
+  build: .
+  volumes:
+    - vendor/openssl:/home/openssl/code:rw
+    - .:/home/openssl/app:rw
+  environment:
+    RUBY_VERSION:
+    OPENSSL_VERSION:
+app: &app
+  working_dir: /home/openssl/app
+compile:
+  <<: *defaults
+  command: bundle exec rake compile
+console:
+  <<: *defaults
+  <<: *app
+  command: bundle exec rails console
+shell:
+  <<: *defaults
+  command: /bin/bash
+test:
+  <<: *defaults
+  <<: *app
+  command: bundle exec rake test
